@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".Activity2">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:onClick="openSecondActivity"
-        android:text="Activity1" />
-
+        android:textColor="@color/colorAccent"
+        android:text="Activity2" />
 </LinearLayout>
