@@ -1,22 +1,40 @@
-package bo.com.emprendeya;
+package bo.com.emprendeya.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import bo.com.emprendeya.R;
+import bo.com.emprendeya.viewModel.LoginViewModel;
 
-    private static final String LOG = MainActivity.class.getName();
+public class LoginActivity extends AppCompatActivity {
+
+    private static final String LOG = LoginActivity.class.getName();
+    private Context context;
+    private LoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(LOG, "onCreate");
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        this.context = this;
+        setContentView(R.layout.activity_login);
 
-        setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+    }
+
+    private void initViews() {
+
+    }
+
+    private void initEvents() {
+
     }
 
     @Override
@@ -67,6 +85,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSecondActivity(View view) {
-        startActivity(new Intent(MainActivity.this, Activity2.class));
+        startActivity(new Intent(LoginActivity.this, StartupListActivity.class));
     }
 }
