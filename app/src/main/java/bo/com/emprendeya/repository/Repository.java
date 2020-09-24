@@ -2,6 +2,10 @@ package bo.com.emprendeya.repository;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
+import bo.com.emprendeya.models.Base;
+import bo.com.emprendeya.models.users.User;
 import bo.com.emprendeya.repository.local.LocalRepository;
 
 public class Repository implements RepositoryImpl {
@@ -9,5 +13,15 @@ public class Repository implements RepositoryImpl {
 
     public Repository(Application application) {
         local = new LocalRepository(application);
+    }
+
+    @Override
+    public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
+        return null;
+    }
+
+    @Override
+    public LiveData<Base<User>> loginWithGoogle() {
+        return null;
     }
 }
