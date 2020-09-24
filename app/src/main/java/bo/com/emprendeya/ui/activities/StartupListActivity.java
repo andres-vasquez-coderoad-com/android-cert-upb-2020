@@ -1,13 +1,15 @@
-package bo.com.emprendeya;
+package bo.com.emprendeya.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 
-public class Activity2 extends AppCompatActivity {
+import bo.com.emprendeya.R;
 
-    private static final String LOG = Activity2.class.getName();
+public class StartupListActivity extends AppCompatActivity {
+
+    private static final String LOG = StartupListActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

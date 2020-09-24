@@ -1,4 +1,4 @@
-package bo.com.emprendeya;
+package bo.com.emprendeya.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import bo.com.emprendeya.R;
 
-    private static final String LOG = MainActivity.class.getName();
+public class LoginActivity extends AppCompatActivity {
+
+    private static final String LOG = LoginActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSecondActivity(View view) {
-        startActivity(new Intent(MainActivity.this, Activity2.class));
+        startActivity(new Intent(LoginActivity.this, StartupListActivity.class));
     }
 }
