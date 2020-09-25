@@ -1,15 +1,15 @@
 package bo.com.emprendeya.model;
 
-public class Base {
+public class Base<T> {
     private boolean success;
 
     private String message;
 
     private Exception exception;
 
-    private Object data;
+    private T data;
 
-    public Base(Object data) {
+    public Base(T data) {
         this.success = true;
         this.data = data;
 
@@ -37,7 +37,7 @@ public class Base {
         return exception;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 }

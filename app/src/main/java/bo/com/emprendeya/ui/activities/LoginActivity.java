@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.users.User;
@@ -23,9 +26,25 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         User user = new User("andres.vasquez@email.com", "test123");
-        Base baseUser = new Base(user);
+
+        /*Base baseUser = new Base(user);
         Log.e(LOG + ".baseUser.success", "" + baseUser.isSuccess());
-        Log.e(LOG + ".baseUser.email", "" + ((User) baseUser.getData()).getEmail());
+        Log.e(LOG + ".baseUser.email", "" + ((User) baseUser.getData()).getEmail());*/
+
+        Base<User> baseUser = new Base<>(user);
+        Log.e(LOG + ".baseUser.success", "" + baseUser.isSuccess());
+        Log.e(LOG + ".baseUser.email", "" + baseUser.getData().getEmail());
+
+        List<User> users = new ArrayList<>();
+        User user2 = new User("benjamin.soto@email.com", "test123");
+        users.add(user);
+        users.add(user2);
+
+        Base<List<User>> baseUsers = new Base<List<User>>(users);
+        Log.e(LOG + ".baseUsers.success", "" + baseUsers.isSuccess());
+        for (User userInTheList : baseUsers.getData()) {
+            Log.e(LOG + ".baseUsers.success", "" + userInTheList.getEmail());
+        }
     }
 
     @Override
