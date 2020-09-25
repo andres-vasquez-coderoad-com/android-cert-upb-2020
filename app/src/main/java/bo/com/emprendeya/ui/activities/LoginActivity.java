@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 
 import bo.com.emprendeya.R;
+import bo.com.emprendeya.model.Base;
+import bo.com.emprendeya.model.users.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,6 +21,11 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(LOG, "onCreate");
 
         setContentView(R.layout.activity_main);
+
+        User user = new User("andres.vasquez@email.com", "test123");
+        Base baseUser = new Base(user);
+        Log.e(LOG + ".baseUser.success", "" + baseUser.isSuccess());
+        Log.e(LOG + ".baseUser.email", "" + ((User) baseUser.getData()).getEmail());
     }
 
     @Override
