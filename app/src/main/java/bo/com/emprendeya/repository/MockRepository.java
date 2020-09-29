@@ -11,6 +11,7 @@ import bo.com.emprendeya.model.users.AdminUser;
 import bo.com.emprendeya.model.users.StartupUser;
 import bo.com.emprendeya.model.users.User;
 import bo.com.emprendeya.utils.Constants;
+import bo.com.emprendeya.utils.Validations;
 
 public class MockRepository implements RepositoryImpl {
 
@@ -31,16 +32,25 @@ public class MockRepository implements RepositoryImpl {
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
         MutableLiveData<Base<User>> results = new MutableLiveData<>();
 
-        boolean found = false;
+        if (Validations.isEmpty(email) || Validations.isEmpty(password)) {
+            results.postValue(new Base(Constants.ERROR_EMPTY_VALUES, null));
+            return results;
+        }
+
+        if (!Validations.isValidEmail(email)) {
+            results.postValue(new Base(Constants.ERROR_INVALID_EMAIL, null));
+            return results;
+        }
+
+        //Server
         for (User user : getFakeUsers()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                found = true;
                 results.postValue(new Base(user));
+                return results;
             }
         }
-        if (!found) {
-            results.postValue(new Base(Constants.ERROR_LOGIN, null));
-        }
+
+        results.postValue(new Base(Constants.ERROR_LOGIN, null));
         return results;
     }
 

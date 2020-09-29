@@ -3,6 +3,7 @@ package bo.com.emprendeya;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.users.User;
 import bo.com.emprendeya.model.users.UserProfile;
 import bo.com.emprendeya.repository.MockRepository;
+import bo.com.emprendeya.repository.RepositoryImpl;
 import bo.com.emprendeya.utils.Constants;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +21,13 @@ import static org.junit.Assert.assertNull;
 
 public class LoginUnitTest {
 
+    RepositoryImpl repository;
+
+    @Before
+    public void beforeEach() {
+        repository = new MockRepository();
+    }
+
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
@@ -26,8 +35,6 @@ public class LoginUnitTest {
     public void loginWithRegularUser() {
         String email = "paola.rivas@email.com";
         String password = "test123";
-
-        MockRepository repository = new MockRepository();
         LiveData<Base<User>> result = repository.loginWithEmailPassword(email, password);
         assertNotNull(result);
 
@@ -42,10 +49,9 @@ public class LoginUnitTest {
 
     @Test
     public void loginFailed() {
-        String email = "elpezloco"; //@ y que tenga . con extension
+        String email = "elpezloco@email.com"; //@ y que tenga . con extension
         String password = "test123";
 
-        MockRepository repository = new MockRepository();
         LiveData<Base<User>> result = repository.loginWithEmailPassword(email, password);
         assertNotNull(result);
 
@@ -61,7 +67,6 @@ public class LoginUnitTest {
         String email = "elpezloco"; //@ y que tenga . con extension
         String password = "test123";
 
-        MockRepository repository = new MockRepository();
         LiveData<Base<User>> result = repository.loginWithEmailPassword(email, password);
         assertNotNull(result);
 
@@ -77,7 +82,6 @@ public class LoginUnitTest {
         String email = "";
         String password = "test123";
 
-        MockRepository repository = new MockRepository();
         LiveData<Base<User>> result = repository.loginWithEmailPassword(email, password);
         assertNotNull(result);
 
@@ -85,22 +89,6 @@ public class LoginUnitTest {
             //userBase: Base<User>
             assertFalse(userBase.isSuccess());
             assertEquals(Constants.ERROR_EMPTY_VALUES, userBase.getMessage());
-        });
-    }
-
-    @Test
-    public void loginFailedNoConnection() {
-        String email = "paola.rivas@email.com";
-        String password = "test123";
-
-        MockRepository repository = new MockRepository();
-        LiveData<Base<User>> result = repository.loginWithEmailPassword(email, password);
-        assertNotNull(result);
-
-        result.observeForever(userBase -> {
-            //userBase: Base<User>
-            assertFalse(userBase.isSuccess());
-            assertEquals(Constants.ERROR_NO_CONNECTION, userBase.getMessage());
         });
     }
 }
