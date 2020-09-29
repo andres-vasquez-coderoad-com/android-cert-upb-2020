@@ -8,10 +8,18 @@
     tools:context=".ui.activities.LoginActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/design_default_color_secondary"
+        android:text="Hola mundo" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:onClick="openSecondActivity"
-        android:text="Activity1" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Chau"
+        android:padding="16dp"
+        android:textColor="@color/white" />
 
 </LinearLayout>

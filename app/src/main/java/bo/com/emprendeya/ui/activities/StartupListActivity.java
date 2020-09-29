@@ -16,7 +16,7 @@ public class StartupListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.w(LOG, "onCreate");
 
-        setContentView(R.layout.activity_2);
+        setContentView(R.layout.activity_startup_list);
     }
 
     @Override

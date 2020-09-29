@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.e(LOG, "onCreate");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         User user = new User("andres.vasquez@email.com", "test123");
 
