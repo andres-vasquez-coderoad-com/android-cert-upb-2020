@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Margin, Padding -->
+    <dimen name="space_xxl">32dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+    <dimen name="space_lg">20dp</dimen>
+    <dimen name="space_md">16dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_xxs">2dp</dimen>
+
+    <!-- Text -->
+    <dimen name="text_lg">20sp</dimen>
+    <dimen name="text_md">16sp</dimen>
+    <dimen name="text_sm">12dp</dimen>
+</resources>

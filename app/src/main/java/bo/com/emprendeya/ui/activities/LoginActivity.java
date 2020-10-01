@@ -22,8 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(LOG, "onCreate");
-
         setContentView(R.layout.activity_login);
+
+        //Ocultar el ActionBar
+        getSupportActionBar().hide();
 
         User user = new User("andres.vasquez@email.com", "test123");
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EmprendeYa</string>
+    <string name="signature">Certificación 2020</string>
+    <string name="login">Entra a tu cuenta....</string>
+    <string name="google">Google</string>
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="or">o</string>
+    <string name="register">Registrar</string>
+    <string name="go">Acceder</string>
+</resources>
