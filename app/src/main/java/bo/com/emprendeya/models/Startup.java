@@ -7,10 +7,19 @@ public class Startup {
     private String uuid;
     private String coverPhoto;
     private String displayName;
+    private String category;
     private String address;
     private List<Post> posts;
     private Map<String, String> codivInfo;
     private Map<String, List<String>> schedule;
+
+    public Startup(String uuid, String coverPhoto, String displayName, String category, String address) {
+        this.uuid = uuid;
+        this.coverPhoto = coverPhoto;
+        this.displayName = displayName;
+        this.category = category;
+        this.address = address;
+    }
 
     public String getUuid() {
         return uuid;
@@ -66,5 +75,13 @@ public class Startup {
 
     public void setSchedule(Map<String, List<String>> schedule) {
         this.schedule = schedule;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

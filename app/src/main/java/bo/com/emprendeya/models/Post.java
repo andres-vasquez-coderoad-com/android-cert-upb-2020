@@ -11,6 +11,11 @@ public class Post {
     private long timestamp;
     private List<User> likes;
 
+    public Post(String uuid, String coverPhoto) {
+        this.uuid = uuid;
+        this.coverPhoto = coverPhoto;
+    }
+
     public String getUuid() {
         return uuid;
     }
