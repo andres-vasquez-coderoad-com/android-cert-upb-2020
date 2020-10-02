@@ -1,22 +1,48 @@
 package bo.com.emprendeya.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.users.User;
+import bo.com.emprendeya.utils.Constants;
+import bo.com.emprendeya.utils.ErrorMapper;
+import bo.com.emprendeya.viewModel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String LOG = LoginActivity.class.getName();
+    private Context context;
+
+    private RelativeLayout parentRelativeLayout;
+    private Button googleButton;
+    private Button emailButton;
+    private FrameLayout registerFrameLayout;
+
+    private FrameLayout popupLoginFrameLayout;
+    private LinearLayout backgroundLoginLinearLayout;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private Button loginButton;
+
+    private LoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,29 +50,65 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(LOG, "onCreate");
         setContentView(R.layout.activity_login);
 
+        context = this; //Todo el entorno, variables del Activity
+        //Aquí y ahora. --> Activity, Fragment, Application
+        //Raisa: En su cuarto, escritorio, laptop, notas, con su perrito
+        //Deportivo, tennis
+        //Avena
+
+        //Injectando el viewModel
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
         //Ocultar el ActionBar
         getSupportActionBar().hide();
 
-        User user = new User("andres.vasquez@email.com", "test123");
+        initViews();
+        initEvents();
+    }
 
-        /*Base baseUser = new Base(user);
-        Log.e(LOG + ".baseUser.success", "" + baseUser.isSuccess());
-        Log.e(LOG + ".baseUser.email", "" + ((User) baseUser.getData()).getEmail());*/
+    private void initViews() {
+        parentRelativeLayout = findViewById(R.id.parentRelativeLayout);
+        googleButton = findViewById(R.id.googleButton);
+        emailButton = findViewById(R.id.emailButton);
+        registerFrameLayout = findViewById(R.id.registerFrameLayout);
 
-        Base<User> baseUser = new Base<>(user);
-        Log.e(LOG + ".baseUser.success", "" + baseUser.isSuccess());
-        Log.e(LOG + ".baseUser.email", "" + baseUser.getData().getEmail());
+        popupLoginFrameLayout = findViewById(R.id.popupLoginFrameLayout);
+        backgroundLoginLinearLayout = findViewById(R.id.backgroundLoginLinearLayout);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
 
-        List<User> users = new ArrayList<>();
-        User user2 = new User("benjamin.soto@email.com", "test123");
-        users.add(user);
-        users.add(user2);
+        emailEditText.setText("paola.rivas@email.com");
+        passwordEditText.setText("test123");
+    }
 
-        Base<List<User>> baseUsers = new Base<List<User>>(users);
-        Log.e(LOG + ".baseUsers.success", "" + baseUsers.isSuccess());
-        for (User userInTheList : baseUsers.getData()) {
-            Log.e(LOG + ".baseUsers.success", "" + userInTheList.getEmail());
-        }
+    private void initEvents() {
+        emailButton.setOnClickListener(view -> popupLoginFrameLayout.setVisibility(View.VISIBLE));
+        popupLoginFrameLayout.setOnClickListener(view -> popupLoginFrameLayout.setVisibility(View.GONE));
+        backgroundLoginLinearLayout.setOnClickListener(view -> {
+            return;
+        });
+    }
+
+
+    public void login(View view) {
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        viewModel.loginWithEmailPassword(email, password).observe(this, new Observer<Base<User>>() {
+            @Override
+            public void onChanged(Base<User> userBase) {
+                if (userBase.isSuccess()) {
+                    Intent intent = new Intent(context, StartupListActivity.class);
+                    intent.putExtra(Constants.KEY_UUID, userBase.getData().getUuid());
+                    intent.putExtra(Constants.KEY_DISPLAY_NAME, userBase.getData().getDisplayName());
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(parentRelativeLayout,
+                            ErrorMapper.getError(context, userBase.getErrorCode()),
+                            BaseTransientBottomBar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -96,7 +158,4 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(LOG, "onDestroy");
     }
 
-    public void openSecondActivity(View view) {
-        startActivity(new Intent(LoginActivity.this, StartupListActivity.class));
-    }
 }

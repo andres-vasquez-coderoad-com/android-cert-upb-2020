@@ -82,9 +82,10 @@
         android:layout_height="match_parent"
         android:background="@color/semi_transparent"
         android:padding="@dimen/space_xl"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/backgroundLoginLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -112,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/space_lg"
+                android:onClick="login"
                 android:text="@string/go" />
 
         </LinearLayout>

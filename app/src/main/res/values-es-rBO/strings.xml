@@ -9,4 +9,11 @@
     <string name="or">o</string>
     <string name="register">Registrar</string>
     <string name="go">Acceder</string>
+
+    <!-- Errors-->
+    <string name="error_fill_values">Ingrese todos los valores</string>
+    <string name="error_no_connection">Revisa tu conexión a Internet</string>
+    <string name="error_incorrect_login">Correo electrónico o password incorrecto</string>
+    <string name="error_valid_email">Ingrese un correo electrónico válido</string>
+    <string name="error_unknown">Error desconocido</string>
 </resources>

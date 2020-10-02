@@ -3,7 +3,7 @@ package bo.com.emprendeya.model;
 public class Base<T> {
     private boolean success;
 
-    private String message;
+    private int errorCode;
 
     private Exception exception;
 
@@ -13,15 +13,15 @@ public class Base<T> {
         this.success = true;
         this.data = data;
 
-        this.message = null;
+        this.errorCode = 0;
         this.exception = null;
     }
 
-    public Base(String message, Exception exception) {
+    public Base(int errorCode, Exception exception) {
         this.success = false;
         this.data = null;
 
-        this.message = message;
+        this.errorCode = errorCode;
         this.exception = exception;
     }
 
@@ -29,8 +29,8 @@ public class Base<T> {
         return success;
     }
 
-    public String getMessage() {
-        return message;
+    public int getErrorCode() {
+        return errorCode;
     }
 
     public Exception getException() {

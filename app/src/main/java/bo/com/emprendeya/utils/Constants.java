@@ -2,10 +2,14 @@ package bo.com.emprendeya.utils;
 
 public class Constants {
     //General
-    public static final String ERROR_EMPTY_VALUES = "Please fill all the values";
-    public static final String ERROR_NO_CONNECTION = "Please review your internet connection";
+    public static final int ERROR_EMPTY_VALUES = 1000;
+    public static final int ERROR_NO_CONNECTION = 1001;
 
     //Login
-    public static final String ERROR_LOGIN = "Email or Password incorrect";
-    public static final String ERROR_INVALID_EMAIL = "Please enter a valid email";
+    public static final int ERROR_LOGIN = 2000;
+    public static final int ERROR_INVALID_EMAIL = 2001;
+
+
+    public static final String KEY_UUID = "uuid";
+    public static final String KEY_DISPLAY_NAME = "displayName";
 }

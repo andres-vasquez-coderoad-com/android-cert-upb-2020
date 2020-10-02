@@ -58,7 +58,7 @@ public class LoginUnitTest {
         result.observeForever(userBase -> {
             //userBase: Base<User>
             assertFalse(userBase.isSuccess());
-            assertEquals(Constants.ERROR_LOGIN, userBase.getMessage());
+            assertEquals(Constants.ERROR_LOGIN, userBase.getErrorCode());
         });
     }
 
@@ -73,7 +73,7 @@ public class LoginUnitTest {
         result.observeForever(userBase -> {
             //userBase: Base<User>
             assertFalse(userBase.isSuccess());
-            assertEquals(Constants.ERROR_INVALID_EMAIL, userBase.getMessage());
+            assertEquals(Constants.ERROR_INVALID_EMAIL, userBase.getErrorCode());
         });
     }
 
@@ -88,7 +88,7 @@ public class LoginUnitTest {
         result.observeForever(userBase -> {
             //userBase: Base<User>
             assertFalse(userBase.isSuccess());
-            assertEquals(Constants.ERROR_EMPTY_VALUES, userBase.getMessage());
+            assertEquals(Constants.ERROR_EMPTY_VALUES, userBase.getErrorCode());
         });
     }
 }
