@@ -8,13 +8,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bo.com.emprendeya.R;
+import bo.com.emprendeya.model.Post;
+import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.utils.Constants;
 
 public class StartupListActivity extends AppCompatActivity {
 
     private static final String LOG = StartupListActivity.class.getName();
     private Context context;
+
+    private List<Post> popularPosts = new ArrayList<>();
+    private List<Startup> startups = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

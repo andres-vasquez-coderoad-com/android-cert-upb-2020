@@ -8,6 +8,7 @@ public class Startup {
     private String coverPhoto;
     private String displayName; //Bolivian Foods SRL --> Burger King
     private String address;
+    private List<String> categories;
     private List<Post> posts;
 
     //temperatura, SI, NO
@@ -75,5 +76,13 @@ public class Startup {
 
     public void setSchedule(Map<String, List<String>> schedule) {
         this.schedule = schedule;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 }
