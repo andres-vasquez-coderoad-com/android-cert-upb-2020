@@ -12,6 +12,7 @@ import java.util.List;
 
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
+import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.model.users.AdminUser;
 import bo.com.emprendeya.model.users.StartupUser;
 import bo.com.emprendeya.model.users.User;
@@ -61,6 +62,30 @@ public class MockRepository implements RepositoryImpl {
 
     @Override
     public LiveData<Base<User>> loginWithGoogle() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Base<List<Startup>>> getStartups(String category) {
+        MutableLiveData<Base<List<Startup>>> results = new MutableLiveData<>();
+        Startup startup1 = new Startup();
+        startup1.setUuid("1");
+        startup1.setDisplayName("Pollos Copacabana");
+
+        Startup startup2 = new Startup();
+        startup2.setUuid("2");
+        startup2.setDisplayName("Pollos don Coco");
+
+        List<Startup> startupList = new ArrayList<>();
+        startupList.add(startup1);
+        startupList.add(startup2);
+
+        results.postValue(new Base<>(startupList));
+        return results;
+    }
+
+    @Override
+    public LiveData<Base<List<Post>>> getPopularPosts() {
         return null;
     }
 
