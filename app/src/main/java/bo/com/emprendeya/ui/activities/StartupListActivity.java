@@ -3,6 +3,7 @@ package bo.com.emprendeya.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ public class StartupListActivity extends AppCompatActivity {
     private StartupListViewModel viewModel;
 
     private CarouselView carouselView;
+    private RecyclerView startupRecyclerView;
 
     private List<Post> popularPosts = new ArrayList<>();
     private List<Startup> startups = new ArrayList<>();
@@ -58,6 +60,7 @@ public class StartupListActivity extends AppCompatActivity {
 
     private void initViews() {
         carouselView = findViewById(R.id.carouselView);
+        startupRecyclerView = findViewById(R.id.startupRecyclerView);
     }
 
     private void initEvents() {

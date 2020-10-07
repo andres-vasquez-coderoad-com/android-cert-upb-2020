@@ -18,4 +18,9 @@
         app:slideInterval="3000"
         app:strokeColor="#FF777777"
         app:strokeWidth="1dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/startupRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
