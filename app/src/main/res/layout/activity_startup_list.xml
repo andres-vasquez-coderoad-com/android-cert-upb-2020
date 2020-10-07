@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".ui.activities.StartupListActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/carouselView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:text="Activity2" />
+        android:layout_height="200dp"
+        app:fillColor="#FFFFFFFF"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp" />
 </LinearLayout>

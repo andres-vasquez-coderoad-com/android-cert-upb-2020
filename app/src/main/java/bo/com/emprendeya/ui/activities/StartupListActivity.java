@@ -8,9 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
 import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.utils.Constants;
+import bo.com.emprendeya.utils.ErrorMapper;
 import bo.com.emprendeya.viewModel.StartupListViewModel;
 
 public class StartupListActivity extends AppCompatActivity {
@@ -28,6 +33,8 @@ public class StartupListActivity extends AppCompatActivity {
     private Context context;
 
     private StartupListViewModel viewModel;
+
+    private CarouselView carouselView;
 
     private List<Post> popularPosts = new ArrayList<>();
     private List<Startup> startups = new ArrayList<>();
@@ -50,7 +57,7 @@ public class StartupListActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-
+        carouselView = findViewById(R.id.carouselView);
     }
 
     private void initEvents() {
@@ -66,16 +73,47 @@ public class StartupListActivity extends AppCompatActivity {
     }
 
     private void subscribeToData() {
+        viewModel.getPopularPosts().observe(this, listBase -> {
+            //onChanged(Base<List<Posts>> listBase)
+            //T1, Tn: Firebase
+            if (listBase.isSuccess()) {
+                popularPosts = listBase.getData();
+                updateCarousel(popularPosts);
+            } else {
+                Toast.makeText(context, ErrorMapper.getError(context, listBase.getErrorCode()),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
         viewModel.getStartups("").observe(this, new Observer<Base<List<Startup>>>() {
             @Override
             public void onChanged(Base<List<Startup>> listBase) {
                 //T1: Local
                 //T2: API
-
-                Log.e("getStartups", new Gson().toJson(listBase));
+                if (listBase.isSuccess()) {
+                    startups = listBase.getData();
+                    Log.e("getStartups", new Gson().toJson(listBase));
+                } else {
+                    Toast.makeText(context, ErrorMapper.getError(context, listBase.getErrorCode()),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
+    private void updateCarousel(List<Post> posts) {
+        carouselView.setImageListener(imageListener);
+        carouselView.setPageCount(Constants.CAROUSEL_COUNT);
+    }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            if (position < popularPosts.size()) {
+                Picasso.get().load(popularPosts.get(position).getCoverPhoto()).into(imageView);
+            }
+        }
+    };
 
     @Override
     protected void onStart() {

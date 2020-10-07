@@ -60,4 +60,8 @@ dependencies {
 
     //Color Picker
     implementation 'com.thebluealliance:spectrum:0.7.1'
+
+    //Carousel
+    implementation 'com.synnapps:carouselview:0.1.5'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
