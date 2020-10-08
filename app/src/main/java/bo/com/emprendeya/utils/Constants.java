@@ -11,6 +11,7 @@ public class Constants {
 
     public static final String KEY_UUID = "uuid";
     public static final String KEY_DISPLAY_NAME = "displayName";
+    public static final String KEY_STARTUP_SELECTED = "startupSelected";
 
     //Startup Lists
     public static final int CAROUSEL_COUNT = 5;

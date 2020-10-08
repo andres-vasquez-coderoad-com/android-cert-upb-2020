@@ -3,6 +3,8 @@ package bo.com.emprendeya.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,19 +27,23 @@ import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
 import bo.com.emprendeya.model.Startup;
+import bo.com.emprendeya.ui.adapters.StartupAdapter;
+import bo.com.emprendeya.ui.callback.StartupCallback;
 import bo.com.emprendeya.utils.Constants;
 import bo.com.emprendeya.utils.ErrorMapper;
 import bo.com.emprendeya.viewModel.StartupListViewModel;
 
-public class StartupListActivity extends AppCompatActivity {
+public class StartupListActivity extends AppCompatActivity implements StartupCallback {
 
     private static final String LOG = StartupListActivity.class.getName();
     private Context context;
 
     private StartupListViewModel viewModel;
 
+    private LinearLayout parentLinearLayout;
     private CarouselView carouselView;
     private RecyclerView startupRecyclerView;
+    private StartupAdapter adapter;
 
     private List<Post> popularPosts = new ArrayList<>();
     private List<Startup> startups = new ArrayList<>();
@@ -59,12 +66,18 @@ public class StartupListActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        parentLinearLayout = findViewById(R.id.parentLinearLayout);
         carouselView = findViewById(R.id.carouselView);
         startupRecyclerView = findViewById(R.id.startupRecyclerView);
+
+        adapter = new StartupAdapter(startups, context);
+        startupRecyclerView.setAdapter(adapter);
+        /*startupRecyclerView.setLayoutManager(
+                new LinearLayoutManager(context, RecyclerView.VERTICAL, false));*/
     }
 
     private void initEvents() {
-
+        adapter.setCallback(this);
     }
 
     private void getIntentValues() {
@@ -95,6 +108,7 @@ public class StartupListActivity extends AppCompatActivity {
                 //T2: API
                 if (listBase.isSuccess()) {
                     startups = listBase.getData();
+                    adapter.updateItems(startups);
                     Log.e("getStartups", new Gson().toJson(listBase));
                 } else {
                     Toast.makeText(context, ErrorMapper.getError(context, listBase.getErrorCode()),
@@ -153,5 +167,12 @@ public class StartupListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.w(LOG, "onDestroy");
+    }
+
+    @Override
+    public void onStartupClicked(Startup startup) {
+        Intent intent = new Intent(context, StartupDetailsActivity.class);
+        intent.putExtra(Constants.KEY_STARTUP_SELECTED, new Gson().toJson(startup));
+        startActivity(intent);
     }
 }

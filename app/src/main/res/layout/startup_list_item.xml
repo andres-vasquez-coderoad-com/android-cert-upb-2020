@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
     android:padding="@dimen/space_xs">
@@ -25,9 +25,10 @@
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textSize="@dimen/text_lg"
             android:textStyle="bold"
-            tools:text="Pollo copacabana" />
+            tools:text="Pollo copacabana Pollo copacabana Pollo copacabana Pollo copacabana Pollo copacabana Pollo copacabana" />
 
         <TextView
             android:id="@+id/addressTextView"
