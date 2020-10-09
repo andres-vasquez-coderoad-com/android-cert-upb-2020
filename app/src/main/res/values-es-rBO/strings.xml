@@ -16,4 +16,9 @@
     <string name="error_incorrect_login">Correo electrónico o password incorrecto</string>
     <string name="error_valid_email">Ingrese un correo electrónico válido</string>
     <string name="error_unknown">Error desconocido</string>
+
+    <!-- Startup Details -->
+    <string name="title_activity_startup_details">Detalles</string>
+    <string name="tab_info">Info</string>
+    <string name="tab_posts">Publicaciones</string>
 </resources>
