@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
@@ -39,7 +40,14 @@ public class Repository implements RepositoryImpl {
 
     @Override
     public LiveData<Base<List<Startup>>> getStartups(String category) {
-        return ApiRepository.getInstance().getStartups();
+        MutableLiveData<Base<List<Startup>>> results = new MutableLiveData<>();
+        local.getStartups().observeForever(startups -> results.postValue(new Base<>(startups)));
+        ApiRepository.getInstance().getStartups().observeForever(listBase -> {
+            results.postValue(new Base<>(listBase.getData()));
+            local.update(listBase.getData());
+        });
+
+        return results;
     }
 
     @Override

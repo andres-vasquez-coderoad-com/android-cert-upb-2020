@@ -1,16 +1,42 @@
 package bo.com.emprendeya.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 import java.util.Map;
 
+@Entity(tableName = "startup_table")
 public class Startup {
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "uuid")
     private String uuid;
+
+    @NonNull
+    @ColumnInfo(name = "coverPhoto")
     private String coverPhoto;
+
+    @ColumnInfo(name = "displayName")
     private String displayName;
+
+    @ColumnInfo(name = "category")
     private String category;
+
+    @ColumnInfo(name = "address")
     private String address;
+
+    @Ignore
     private List<Post> posts;
+
+    @ColumnInfo(name = "codivInfo")
     private Map<String, String> codivInfo;
+
+    @ColumnInfo(name = "schedule")
     private Map<String, List<String>> schedule;
 
     public Startup(String uuid, String coverPhoto, String displayName, String category, String address) {
