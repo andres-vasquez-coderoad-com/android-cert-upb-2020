@@ -23,7 +23,7 @@ public class StartupListViewModel extends AndroidViewModel {
 
     public StartupListViewModel(@NonNull Application application) {
         super(application);
-        repository = new MockRepository();
+        repository = new Repository(application);
     }
 
     public LiveData<Base<List<Post>>> getMostLikelyPosts() {
