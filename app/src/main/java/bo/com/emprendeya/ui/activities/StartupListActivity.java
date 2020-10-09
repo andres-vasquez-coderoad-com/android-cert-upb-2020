@@ -7,14 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import bo.com.emprendeya.models.Base;
 import bo.com.emprendeya.models.Post;
 import bo.com.emprendeya.models.Startup;
 import bo.com.emprendeya.ui.adapters.StartupAdapter;
+import bo.com.emprendeya.ui.callback.StartupCallback;
 import bo.com.emprendeya.viewModel.LoginViewModel;
 import bo.com.emprendeya.viewModel.StartupListViewModel;
 
@@ -71,7 +75,11 @@ public class StartupListActivity extends AppCompatActivity {
     }
 
     private void initEvents() {
-
+        adapter.setStartupCallback(startup -> {
+            Intent intent = new Intent(context, StartupDetailsActivity.class);
+            intent.putExtra("startup", new Gson().toJson(startup));
+            startActivity(intent);
+        });
     }
 
     private void subscribe() {
@@ -96,6 +104,15 @@ public class StartupListActivity extends AppCompatActivity {
             carouselView.setVisibility(View.VISIBLE);
             carouselView.setImageListener(imageListener);
             carouselView.setPageCount(postList.size());
+            carouselView.setImageClickListener(new ImageClickListener() {
+                @Override
+                public void onClick(int position) {
+                    Post post = posts.get(position);
+                    Intent intent = new Intent(context, PostDetailsActivity.class);
+                    intent.putExtra("post", new Gson().toJson(post));
+                    startActivity(intent);
+                }
+            });
         }
     }
 

@@ -17,4 +17,11 @@
     <string name="category_food">Food</string>
     <string name="category_health">Health</string>
     <string name="category_ecommerce">E-commerce</string>
+    <string name="title_activity_startup_details">StartupDetailsActivity</string>
+
+
+    <string name="tab_details">Details</string>
+    <string name="tab_posts">Posts</string>
+
+    <string name="covid_details">Covid details</string>
 </resources>
