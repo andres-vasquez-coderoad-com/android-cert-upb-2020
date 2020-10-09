@@ -8,8 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bo.com.emprendeya.R;
-import bo.com.emprendeya.ui.fragments.PlaceholderFragment;
+import bo.com.emprendeya.ui.fragments.StartupDetailsPostsFragment;
+import bo.com.emprendeya.ui.fragments.StartupDetailsInfoFragment;
 
 
 /**
@@ -21,18 +25,20 @@ public class StartupDetailsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{
             R.string.tab_info, R.string.tab_posts};
+
     private final Context mContext;
+    private List<Fragment> fragments = new ArrayList<>();
 
     public StartupDetailsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        fragments.add(StartupDetailsInfoFragment.newInstance());
+        fragments.add(StartupDetailsPostsFragment.newInstance());
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance();
+        return fragments.get(position);
     }
 
     @Nullable

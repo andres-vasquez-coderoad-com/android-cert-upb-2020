@@ -16,16 +16,16 @@ import bo.com.emprendeya.viewModel.StartupDetailsViewModel;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceholderFragment extends Fragment {
+public class StartupDetailsPostsFragment extends Fragment {
 
-    private static final String LOG = PlaceholderFragment.class.getSimpleName();
+    private static final String LOG = StartupDetailsPostsFragment.class.getSimpleName();
     private Context context;
 
 
     private StartupDetailsViewModel startupDetailsViewModel;
 
-    public static PlaceholderFragment newInstance() {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static StartupDetailsPostsFragment newInstance() {
+        StartupDetailsPostsFragment fragment = new StartupDetailsPostsFragment();
         return fragment;
     }
 
@@ -45,7 +45,7 @@ public class PlaceholderFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_startup_details, container, false);
+        View root = inflater.inflate(R.layout.fragment_startup_details_posts, container, false);
         initViews(root);
         initEvents();
         return root;
