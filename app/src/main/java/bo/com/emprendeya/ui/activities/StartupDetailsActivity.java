@@ -1,20 +1,25 @@
 package bo.com.emprendeya.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import bo.com.emprendeya.R;
+import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.ui.adapters.StartupDetailsPagerAdapter;
+import bo.com.emprendeya.utils.Constants;
 import bo.com.emprendeya.viewModel.LoginViewModel;
 import bo.com.emprendeya.viewModel.StartupDetailsViewModel;
 
@@ -38,6 +43,7 @@ public class StartupDetailsActivity extends AppCompatActivity {
 
         initViews();
         initEvents();
+        getIntentValues();
     }
 
     private void initViews() {
@@ -57,5 +63,19 @@ public class StartupDetailsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void getIntentValues() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(Constants.KEY_STARTUP_SELECTED)) {
+            try {
+                String json = intent.getStringExtra(Constants.KEY_STARTUP_SELECTED);
+                Startup startup = new Gson().fromJson(json, Startup.class);
+                viewModel.setStartup(startup);
+                Log.e("StartupName", startup.getDisplayName());
+            } catch (Exception ex) {
+                Log.e(LOG, "getIntentValues", ex);
+            }
+        }
     }
 }
