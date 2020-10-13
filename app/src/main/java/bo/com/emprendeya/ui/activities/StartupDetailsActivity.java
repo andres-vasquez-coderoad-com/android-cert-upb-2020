@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 
 import bo.com.emprendeya.R;
+import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.ui.adapters.StartupDetailsPagerAdapter;
 import bo.com.emprendeya.utils.Constants;
@@ -43,7 +44,6 @@ public class StartupDetailsActivity extends AppCompatActivity {
 
         initViews();
         initEvents();
-        getIntentValues();
     }
 
     private void initViews() {
@@ -65,12 +65,19 @@ public class StartupDetailsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getIntentValues();
+    }
+
     private void getIntentValues() {
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.KEY_STARTUP_SELECTED)) {
             try {
                 String json = intent.getStringExtra(Constants.KEY_STARTUP_SELECTED);
                 Startup startup = new Gson().fromJson(json, Startup.class);
+                Log.e("Tiempo", "getIntentValues");
                 viewModel.setStartup(startup);
                 Log.e("StartupName", startup.getDisplayName());
             } catch (Exception ex) {

@@ -23,4 +23,7 @@
     <string name="title_activity_startup_details">StartupDetailsActivity</string>
     <string name="tab_info">Info</string>
     <string name="tab_posts">Posts</string>
+
+    <!-- Startup details fragment -->
+    <string name="covid_details">COVID-19 Info</string>
 </resources>
