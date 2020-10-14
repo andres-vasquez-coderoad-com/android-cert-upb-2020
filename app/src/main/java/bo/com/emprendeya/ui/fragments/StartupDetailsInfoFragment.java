@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
+
 import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.viewModel.StartupDetailsViewModel;
@@ -83,7 +85,46 @@ public class StartupDetailsInfoFragment extends Fragment {
                 nameTextView.setText(startup.getDisplayName());
                 addressTextView.setText(startup.getAddress());
                 Picasso.get().load(startup.getCoverPhoto()).into(coverImageView);
+
+                covidDetailsLinearLayout.removeAllViews();
+                for (int i = 0; i < 10; i++) {
+                    addCovidInfo(startup.getCodivInfo());
+                }
             }
         });
+    }
+
+    private void addCovidInfo(Map<String, String> covidInfo) {
+        if (covidInfo != null) {
+            for (Map.Entry<String, String> entry : covidInfo.entrySet()) {
+                TextView tvKey = new TextView(context);
+                tvKey.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        40));
+                tvKey.setTextSize(22);
+                tvKey.setText(entry.getKey());
+
+                TextView tvValue = new TextView(context);
+                tvValue.setLayoutParams(new LinearLayout.LayoutParams(0,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        60));
+                tvValue.setTextSize(22);
+                tvValue.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvValue.setText(entry.getValue());
+
+                LinearLayout llh = new LinearLayout(context);
+                llh.setOrientation(LinearLayout.HORIZONTAL);
+                llh.setPadding(20, 20, 20, 20);
+                llh.addView(tvKey);
+                llh.addView(tvValue);
+
+                covidDetailsLinearLayout.addView(llh);
+
+                View line = new View(context);
+                line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
+                line.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                covidDetailsLinearLayout.addView(line);
+            }
+        }
     }
 }
