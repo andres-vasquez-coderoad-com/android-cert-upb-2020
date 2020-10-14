@@ -15,4 +15,9 @@ public class Constants {
 
     //Startup Lists
     public static final int CAROUSEL_COUNT = 5;
+
+    //Api
+    public static final String BASE_URL = "https://firebasestorage.googleapis.com/v0/b/emprende-ya-2cd09.appspot.com/o/";
+    public static final String RESOURCE_STARTUPS = "json%2Fstartups.json";
+    public static final String QUERY_PARAM_ALT = "media";
 }
