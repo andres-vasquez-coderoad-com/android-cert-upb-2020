@@ -9,6 +9,9 @@ public class Constants {
     public static final int ERROR_LOGIN = 2000;
     public static final int ERROR_INVALID_EMAIL = 2001;
 
+    //Server
+    public static final int ERROR_SERVER = 3000;
+
     public static final String KEY_UUID = "uuid";
     public static final String KEY_DISPLAY_NAME = "displayName";
     public static final String KEY_STARTUP_SELECTED = "startupSelected";

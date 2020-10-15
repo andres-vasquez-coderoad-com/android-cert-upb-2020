@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class StartupListActivity extends AppCompatActivity implements StartupCal
     private List<Post> popularPosts = new ArrayList<>();
     private List<Startup> startups = new ArrayList<>();
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,10 @@ public class StartupListActivity extends AppCompatActivity implements StartupCal
         startupRecyclerView.setAdapter(adapter);
         /*startupRecyclerView.setLayoutManager(
                 new LinearLayoutManager(context, RecyclerView.VERTICAL, false));*/
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Cargando, espere por favor");
+        progressDialog.setCancelable(false);
     }
 
     private void initEvents() {
@@ -101,9 +108,11 @@ public class StartupListActivity extends AppCompatActivity implements StartupCal
             }
         });
 
+        showLoading();
         viewModel.getStartups("").observe(this, new Observer<Base<List<Startup>>>() {
             @Override
             public void onChanged(Base<List<Startup>> listBase) {
+                dismissLoading();
                 //T1: Local
                 //T2: API
                 if (listBase.isSuccess()) {
@@ -174,5 +183,15 @@ public class StartupListActivity extends AppCompatActivity implements StartupCal
         Intent intent = new Intent(context, StartupDetailsActivity.class);
         intent.putExtra(Constants.KEY_STARTUP_SELECTED, new Gson().toJson(startup));
         startActivity(intent);
+    }
+
+    private void showLoading() {
+        progressDialog.show();
+    }
+
+    private void dismissLoading() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }
