@@ -8,19 +8,26 @@ import java.util.List;
 
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Startup;
+import bo.com.emprendeya.repository.local.dao.StartupDao;
+import bo.com.emprendeya.repository.local.db.EmprendeYaDatabase;
 
 public class LocalRepository {
     public static final String LOG = LocalRepository.class.getSimpleName();
 
-    public LocalRepository(Application application) {
+    private StartupDao startupDao;
 
+    public LocalRepository(Application application) {
+        EmprendeYaDatabase db = EmprendeYaDatabase.getDatabase(application);
+        startupDao = db.startupDao();
     }
 
-    public LiveData<Base<List<Startup>>> getStartups() {
-        return null;
+    public LiveData<List<Startup>> getStartups() {
+        return startupDao.getAll();
     }
 
     public void update(List<Startup> startups) {
-
+        new Thread(() -> {
+            startupDao.insert(startups);
+        }).start();
     }
 }

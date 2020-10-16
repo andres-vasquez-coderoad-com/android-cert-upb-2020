@@ -14,6 +14,7 @@ import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
 import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.repository.MockRepository;
+import bo.com.emprendeya.repository.Repository;
 import bo.com.emprendeya.repository.RepositoryImpl;
 
 public class StartupListViewModel extends AndroidViewModel {
@@ -22,7 +23,7 @@ public class StartupListViewModel extends AndroidViewModel {
 
     public StartupListViewModel(@NonNull Application application) {
         super(application);
-        repository = new MockRepository();
+        repository = new Repository(application);
     }
 
     public LiveData<Base<List<Startup>>> getStartups(String category) {

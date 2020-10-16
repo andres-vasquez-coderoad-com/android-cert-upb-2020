@@ -1,6 +1,7 @@
 package bo.com.emprendeya.repository.firebase;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class FirebaseRepository {
     }
 
     public LiveData<Base<List<Post>>> getPopularPosts() {
-        return null;
+        MutableLiveData<Base<List<Post>>> results = new MutableLiveData<>();
+        return results;
     }
 }

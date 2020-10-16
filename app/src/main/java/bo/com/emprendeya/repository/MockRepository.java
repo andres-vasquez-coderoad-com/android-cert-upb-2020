@@ -1,5 +1,7 @@
 package bo.com.emprendeya.repository;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,11 +18,13 @@ import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.model.users.AdminUser;
 import bo.com.emprendeya.model.users.StartupUser;
 import bo.com.emprendeya.model.users.User;
-import bo.com.emprendeya.repository.api.ApiRepository;
 import bo.com.emprendeya.utils.Constants;
 import bo.com.emprendeya.utils.Validations;
 
 public class MockRepository implements RepositoryImpl {
+
+    public MockRepository(Application application) {
+    }
 
     public List<User> getFakeUsers() {
         List<User> fakeUsers = new ArrayList<>();

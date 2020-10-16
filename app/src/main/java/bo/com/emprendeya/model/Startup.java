@@ -1,25 +1,47 @@
 package bo.com.emprendeya.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 import java.util.Map;
 
+@Entity(tableName = "startup_table")
 public class Startup {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "uuid")
     private String uuid;
+
+    @ColumnInfo(name = "coverPhoto")
     private String coverPhoto;
+
+    @ColumnInfo(name = "displayName")
     private String displayName; //Bolivian Foods SRL --> Burger King
+
+    @ColumnInfo(name = "address")
     private String address;
+
+    @Ignore
     private List<String> categories;
+
+    @Ignore
     private List<Post> posts;
 
     //temperatura, SI, NO
     //Pediluvio, SI, NO
     //Solo delivery, SI, NO
     //Aforo, 40% --> 100personas, 0
+    @Ignore
     private Map<String, String> codivInfo;
 
     //Lun-Vie, [10:00-12:30, 14:00-20:00]
     //Sábado [10:00-13:00]
     //Domingo []
+    @Ignore
     private Map<String, List<String>> schedule;
 
     public String getUuid() {
