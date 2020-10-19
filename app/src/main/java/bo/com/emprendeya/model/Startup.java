@@ -35,7 +35,7 @@ public class Startup {
     //Pediluvio, SI, NO
     //Solo delivery, SI, NO
     //Aforo, 40% --> 100personas, 0
-    @Ignore
+    @ColumnInfo(name = "codivInfo")
     private Map<String, String> codivInfo;
 
     //Lun-Vie, [10:00-12:30, 14:00-20:00]
