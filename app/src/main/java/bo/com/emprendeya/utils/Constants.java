@@ -8,6 +8,8 @@ public class Constants {
     //Login
     public static final int ERROR_LOGIN = 2000;
     public static final int ERROR_INVALID_EMAIL = 2001;
+    public static final int ERROR_REGISTER = 2002;
+    public static final int ERROR_REGISTER_EMAIL_ALREADY_EXISTS = 2003;
 
     //Server
     public static final int ERROR_SERVER = 3000;

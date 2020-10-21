@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.users.User;
 import bo.com.emprendeya.repository.MockRepository;
+import bo.com.emprendeya.repository.Repository;
 import bo.com.emprendeya.repository.RepositoryImpl;
 
 public class LoginViewModel extends AndroidViewModel {
@@ -17,7 +18,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        repository = new MockRepository(application);
+        repository = new Repository(application);
     }
 
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {

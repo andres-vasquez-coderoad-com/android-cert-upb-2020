@@ -15,6 +15,10 @@ public class ErrorMapper {
                 return context.getString(R.string.error_incorrect_login);
             case Constants.ERROR_INVALID_EMAIL:
                 return context.getString(R.string.error_valid_email);
+            case Constants.ERROR_REGISTER:
+                return context.getString(R.string.error_register);
+            case Constants.ERROR_REGISTER_EMAIL_ALREADY_EXISTS:
+                return context.getString(R.string.error_register_email_already_exist);
             default:
                 return context.getString(R.string.error_unknown);
         }
