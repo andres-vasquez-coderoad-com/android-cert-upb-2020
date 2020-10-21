@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "237249173857",
-    "firebase_url": "https://preparation-a2443.firebaseio.com",
-    "project_id": "preparation-a2443",
-    "storage_bucket": "preparation-a2443.appspot.com"
+    "project_number": "1084145168144",
+    "firebase_url": "https://preparation-da4e7.firebaseio.com",
+    "project_id": "preparation-da4e7",
+    "storage_bucket": "preparation-da4e7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:237249173857:android:b3770302fe7821f42d4d20",
+        "mobilesdk_app_id": "1:1084145168144:android:2436392f7e11925f347f95",
         "android_client_info": {
-          "package_name": "bo.com.emprendeya.preparation"
+          "package_name": "bo.com.emprendeyalo.preparation"
         }
       },
       "oauth_client": [
         {
-          "client_id": "237249173857-jaskd1qa7scnljjuhlnha8e6mc0jsg1r.apps.googleusercontent.com",
+          "client_id": "1084145168144-arhevf30b2p4riv06ct2etqkhiq79qfp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "bo.com.emprendeya.preparation",
+            "package_name": "bo.com.emprendeyalo.preparation",
             "certificate_hash": "6109421e84b131e404672c26b07dd1a9b320c2f1"
           }
         },
         {
-          "client_id": "237249173857-2dqanomaft7lnpv8rr8m8u27sm2ok55k.apps.googleusercontent.com",
+          "client_id": "1084145168144-n1sk4jkrtvqtddl0jtn6i3t98r8agunm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAyNvfBCENXi6r4eq23nw08g2O-NL7mIo8"
+          "current_key": "AIzaSyD8nc-m1lV5IuPJDWhfGc7cNFiwFNtcxWk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "237249173857-2dqanomaft7lnpv8rr8m8u27sm2ok55k.apps.googleusercontent.com",
+              "client_id": "1084145168144-n1sk4jkrtvqtddl0jtn6i3t98r8agunm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
