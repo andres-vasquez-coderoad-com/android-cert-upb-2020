@@ -9,6 +9,7 @@
     <string name="or">o</string>
     <string name="register">Registrar</string>
     <string name="go">Acceder</string>
+    <string name="logout">Cerrar sesión</string>
 
     <!-- Errors-->
     <string name="error_fill_values">Ingrese todos los valores</string>

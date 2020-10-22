@@ -43,4 +43,8 @@ public class StartupListViewModel extends AndroidViewModel {
         });
         return results;
     }
+
+    public void logout() {
+        repository.signOut();
+    }
 }

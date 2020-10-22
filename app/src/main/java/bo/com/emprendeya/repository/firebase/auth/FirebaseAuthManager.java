@@ -26,6 +26,15 @@ public class FirebaseAuthManager {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public LiveData<Base<User>> getCurrentUser() {
+        MutableLiveData<Base<User>> results = new MutableLiveData<>();
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            results.postValue(new Base<>(FirebaseMapper.firebaseUserToUser(firebaseUser)));
+        }
+        return results;
+    }
+
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
         MutableLiveData<Base<User>> results = new MutableLiveData<>();
         mAuth.signInWithEmailAndPassword(email, password)

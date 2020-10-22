@@ -18,5 +18,7 @@ public interface RepositoryImpl {
 
     LiveData<Base<List<Post>>> getPopularPosts();
 
+    LiveData<Base<User>> getCurrentUser();
+
     void signOut();
 }

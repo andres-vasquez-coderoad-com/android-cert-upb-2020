@@ -28,4 +28,8 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<Base<User>> loginWithGoogle(String idToken) {
         return repository.loginWithGoogle(idToken);
     }
+
+    public LiveData<Base<User>> getCurrentUser() {
+        return repository.getCurrentUser();
+    }
 }

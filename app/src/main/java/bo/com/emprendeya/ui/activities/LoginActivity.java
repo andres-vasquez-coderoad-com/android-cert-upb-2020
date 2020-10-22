@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(LOG, "onCreate");
-        setContentView(R.layout.activity_login);
 
         context = this; //Todo el entorno, variables del Activity
         //Aquí y ahora. --> Activity, Fragment, Application
@@ -68,6 +67,16 @@ public class LoginActivity extends AppCompatActivity {
 
         //Injectando el viewModel
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        viewModel.getCurrentUser().observe(this, new Observer<Base<User>>() {
+            @Override
+            public void onChanged(Base<User> userBase) {
+                if (userBase.isSuccess()) {
+                    openNextActivity(userBase.getData());
+                }
+            }
+        });
+        setContentView(R.layout.activity_login);
 
         //Ocultar el ActionBar
         getSupportActionBar().hide();

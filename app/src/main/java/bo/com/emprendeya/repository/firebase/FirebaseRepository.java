@@ -47,4 +47,12 @@ public class FirebaseRepository {
         MutableLiveData<Base<List<Post>>> results = new MutableLiveData<>();
         return results;
     }
+
+    public LiveData<Base<User>> getCurrentUser() {
+        return auth.getCurrentUser();
+    }
+
+    public void signOut() {
+        auth.signOut();
+    }
 }

@@ -67,7 +67,12 @@ public class Repository implements RepositoryImpl {
     }
 
     @Override
-    public void signOut() {
+    public LiveData<Base<User>> getCurrentUser() {
+        return FirebaseRepository.getInstance().getCurrentUser();
+    }
 
+    @Override
+    public void signOut() {
+        FirebaseRepository.getInstance().signOut();
     }
 }
