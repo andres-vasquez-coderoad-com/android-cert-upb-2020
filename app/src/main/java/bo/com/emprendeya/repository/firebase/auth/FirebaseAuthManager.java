@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.users.User;
@@ -69,18 +71,40 @@ public class FirebaseAuthManager {
         return results;
     }
 
-    public LiveData<Base<User>> loginWithGoogle() {
+    public LiveData<Base<User>> loginWithGoogle(String idToken) {
         MutableLiveData<Base<User>> results = new MutableLiveData<>();
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    User user = FirebaseMapper.firebaseUserToUser(firebaseUser);
+                    results.postValue(new Base<>(user));
+                } else {
+                    results.postValue(new Base<>(Constants.ERROR_LOGIN_GOOGLE, task.getException()));
+                }
+            }
+        });
         return results;
     }
 
-    public LiveData<Base<User>> forgotPassword(String email) {
-        MutableLiveData<Base<User>> results = new MutableLiveData<>();
-        return results;
-    }
-
-    public LiveData<Base<Boolean>> signOut() {
+    public LiveData<Base<Boolean>> forgotPassword(String email) {
         MutableLiveData<Base<Boolean>> results = new MutableLiveData<>();
+        this.mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    results.postValue(new Base<>(true));
+                } else {
+                    results.postValue(new Base<>(Constants.ERROR_SERVER, task.getException()));
+                }
+            }
+        });
         return results;
+    }
+
+    public void signOut() {
+        this.mAuth.signOut();
     }
 }

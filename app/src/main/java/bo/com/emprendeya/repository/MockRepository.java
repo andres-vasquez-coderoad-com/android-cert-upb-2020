@@ -66,7 +66,7 @@ public class MockRepository implements RepositoryImpl {
     }
 
     @Override
-    public LiveData<Base<User>> loginWithGoogle() {
+    public LiveData<Base<User>> loginWithGoogle(String idToken) {
         return null;
     }
 
@@ -94,6 +94,11 @@ public class MockRepository implements RepositoryImpl {
             }
         }).start();
         return results;
+    }
+
+    @Override
+    public void signOut() {
+
     }
 
 

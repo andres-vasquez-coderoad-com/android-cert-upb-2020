@@ -18,6 +18,7 @@
     <string name="error_unknown">Error desconocido</string>
     <string name="error_register">Error al registrar el usuario</string>
     <string name="error_register_email_already_exist">Error al registrar el usuario, el email ya está en uso</string>
+    <string name="error_login_google">Revisa tus credenciales de Google</string>
 
     <!-- Startup Details -->
     <string name="title_activity_startup_details">Detalles</string>

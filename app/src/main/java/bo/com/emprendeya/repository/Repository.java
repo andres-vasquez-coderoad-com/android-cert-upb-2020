@@ -29,8 +29,8 @@ public class Repository implements RepositoryImpl {
     }
 
     @Override
-    public LiveData<Base<User>> loginWithGoogle() {
-        return FirebaseRepository.getInstance().loginWithGoogle();
+    public LiveData<Base<User>> loginWithGoogle(String idToken) {
+        return FirebaseRepository.getInstance().loginWithGoogle(idToken);
     }
 
     @Override
@@ -64,5 +64,10 @@ public class Repository implements RepositoryImpl {
     @Override
     public LiveData<Base<List<Post>>> getPopularPosts() {
         return FirebaseRepository.getInstance().getPopularPosts();
+    }
+
+    @Override
+    public void signOut() {
+
     }
 }

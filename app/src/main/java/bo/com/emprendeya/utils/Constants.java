@@ -10,6 +10,7 @@ public class Constants {
     public static final int ERROR_INVALID_EMAIL = 2001;
     public static final int ERROR_REGISTER = 2002;
     public static final int ERROR_REGISTER_EMAIL_ALREADY_EXISTS = 2003;
+    public static final int ERROR_LOGIN_GOOGLE = 2004;
 
     //Server
     public static final int ERROR_SERVER = 3000;

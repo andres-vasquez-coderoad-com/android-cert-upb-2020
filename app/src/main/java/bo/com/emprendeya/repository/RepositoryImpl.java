@@ -12,9 +12,11 @@ import bo.com.emprendeya.model.users.User;
 public interface RepositoryImpl {
     LiveData<Base<User>> loginWithEmailPassword(String email, String password);
 
-    LiveData<Base<User>> loginWithGoogle();
+    LiveData<Base<User>> loginWithGoogle(String idToken);
 
     LiveData<Base<List<Startup>>> getStartups(String category);
 
     LiveData<Base<List<Post>>> getPopularPosts();
+
+    void signOut();
 }

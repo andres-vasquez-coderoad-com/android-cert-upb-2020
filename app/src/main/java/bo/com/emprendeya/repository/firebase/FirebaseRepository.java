@@ -2,6 +2,7 @@ package bo.com.emprendeya.repository.firebase;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.List;
 
@@ -35,15 +36,11 @@ public class FirebaseRepository {
     }
 
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
-        //return auth.loginWithEmailPassword(email, password);
-        User newUser = new User(email, password);
-        newUser.setDisplayName("Pepe Perez");
-        newUser.setPhoto("pepeperez.jpg");
-        return auth.registerUser(newUser);
+        return auth.loginWithEmailPassword(email, password);
     }
 
-    public LiveData<Base<User>> loginWithGoogle() {
-        return null;
+    public LiveData<Base<User>> loginWithGoogle(String idToken) {
+        return auth.loginWithGoogle(idToken);
     }
 
     public LiveData<Base<List<Post>>> getPopularPosts() {

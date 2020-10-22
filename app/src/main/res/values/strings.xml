@@ -20,6 +20,7 @@
     <string name="error_unknown">Unknown error</string>
     <string name="error_register">Error register User</string>
     <string name="error_register_email_already_exist">Email is already registered</string>
+    <string name="error_login_google">Please review your google credentials</string>
 
     <!-- Startup Details -->
     <string name="title_activity_startup_details">StartupDetailsActivity</string>

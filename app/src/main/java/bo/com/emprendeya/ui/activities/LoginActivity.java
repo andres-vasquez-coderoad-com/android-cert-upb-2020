@@ -1,5 +1,6 @@
 package bo.com.emprendeya.ui.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,8 +15,13 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -44,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel viewModel;
 
+    //Google Auth
+    private GoogleSignInClient googleSignInClient;
+    private int GOOGLE_AUTH_RC = 9001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initViews();
         initEvents();
+        initGoogleAuthConfig();
     }
 
     private void initViews() {
@@ -88,8 +99,22 @@ public class LoginActivity extends AppCompatActivity {
         backgroundLoginLinearLayout.setOnClickListener(view -> {
             return;
         });
+
+        googleButton.setOnClickListener(view -> {
+            //Paso 2
+            Intent intent = googleSignInClient.getSignInIntent();
+            startActivityForResult(intent, GOOGLE_AUTH_RC);
+        });
     }
 
+    //Paso 1
+    private void initGoogleAuthConfig() {
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, options);
+    }
 
     public void login(View view) {
         String email = emailEditText.getText().toString();
@@ -98,10 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(Base<User> userBase) {
                 if (userBase.isSuccess()) {
-                    Intent intent = new Intent(context, StartupListActivity.class);
-                    intent.putExtra(Constants.KEY_UUID, userBase.getData().getUuid());
-                    intent.putExtra(Constants.KEY_DISPLAY_NAME, userBase.getData().getDisplayName());
-                    startActivity(intent);
+                    openNextActivity(userBase.getData());
                 } else {
                     Snackbar.make(parentRelativeLayout,
                             ErrorMapper.getError(context, userBase.getErrorCode()),
@@ -158,4 +180,40 @@ public class LoginActivity extends AppCompatActivity {
         Log.e(LOG, "onDestroy");
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Paso 3
+
+        if (requestCode == GOOGLE_AUTH_RC) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                //Paso 4
+                viewModel.loginWithGoogle(account.getIdToken()).observe(LoginActivity.this, new Observer<Base<User>>() {
+                    @Override
+                    public void onChanged(Base<User> userBase) {
+                        if (userBase.isSuccess()) {
+                            openNextActivity(userBase.getData());
+                        } else {
+                            Snackbar.make(parentRelativeLayout,
+                                    ErrorMapper.getError(context, Constants.ERROR_LOGIN_GOOGLE),
+                                    BaseTransientBottomBar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } catch (ApiException ex) {
+                Snackbar.make(parentRelativeLayout,
+                        ErrorMapper.getError(context, Constants.ERROR_LOGIN_GOOGLE),
+                        BaseTransientBottomBar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void openNextActivity(User user) {
+        Intent intent = new Intent(context, StartupListActivity.class);
+        intent.putExtra(Constants.KEY_UUID, user.getUuid());
+        intent.putExtra(Constants.KEY_DISPLAY_NAME, user.getDisplayName());
+        startActivity(intent);
+    }
 }

@@ -24,4 +24,8 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
         return repository.loginWithEmailPassword(email, password);
     }
+
+    public LiveData<Base<User>> loginWithGoogle(String idToken) {
+        return repository.loginWithGoogle(idToken);
+    }
 }
