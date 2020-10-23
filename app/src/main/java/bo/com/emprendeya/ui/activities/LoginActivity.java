@@ -223,6 +223,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(context, StartupListActivity.class);
         intent.putExtra(Constants.KEY_UUID, user.getUuid());
         intent.putExtra(Constants.KEY_DISPLAY_NAME, user.getDisplayName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
