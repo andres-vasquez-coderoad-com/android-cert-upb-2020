@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import java.util.Calendar;
 import java.util.List;
 
 import bo.com.emprendeya.model.Base;
@@ -36,12 +37,45 @@ public class FirebaseRepository {
     }
 
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
-        return auth.loginWithEmailPassword(email, password);
+        return registerAndUpdateDb(auth.loginWithEmailPassword(email, password), null);
     }
 
     public LiveData<Base<User>> loginWithGoogle(String idToken) {
-        return auth.loginWithGoogle(idToken);
+        return registerAndUpdateDb(auth.loginWithGoogle(idToken), null);
     }
+
+    public LiveData<Base<User>> register(User user) {
+        return registerAndUpdateDb(auth.registerUser(user), user);
+    }
+
+    private LiveData<Base<User>> registerAndUpdateDb(LiveData<Base<User>> registerFunction, User user) {
+        MutableLiveData<Base<User>> results = new MutableLiveData<>();
+        registerFunction.observeForever(new Observer<Base<User>>() {
+            @Override
+            public void onChanged(Base<User> userBase) {
+                if (userBase.isSuccess()) {
+                    User registeredUser = userBase.getData();
+                    registeredUser.setLastLogin(Calendar.getInstance().getTimeInMillis());
+                    if (user != null && registeredUser.getPhoto().isEmpty()) {
+                        registeredUser.setPhoto(user.getPhoto() != null ? user.getPhoto() : "");
+                    }
+
+                    //Register in database
+                    db.updateUser(registeredUser).observeForever(new Observer<Base<User>>() {
+                        @Override
+                        public void onChanged(Base<User> userBase) {
+                            results.postValue(userBase);
+                        }
+                    });
+                } else {
+                    //Return results
+                    results.postValue(userBase);
+                }
+            }
+        });
+        return results;
+    }
+
 
     public LiveData<Base<List<Post>>> getPopularPosts() {
         MutableLiveData<Base<List<Post>>> results = new MutableLiveData<>();

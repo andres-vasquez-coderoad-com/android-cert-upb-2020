@@ -9,7 +9,7 @@ public class FirebaseMapper {
         User user = new User(firebaseUser.getEmail(), null);
         user.setUuid(firebaseUser.getUid());
         user.setDisplayName(firebaseUser.getDisplayName());
-        user.setPhoto(firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().getPath() : "");
+        user.setPhoto(firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : "");
         return user;
     }
 }

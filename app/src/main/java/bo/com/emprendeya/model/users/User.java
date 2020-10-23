@@ -7,6 +7,7 @@ public class User {
     protected String displayName;
     protected String photo;
     protected UserProfile profile = UserProfile.REGULAR;
+    public long lastLogin;
 
     public User(String email, String password) {
         this.email = email;
@@ -47,5 +48,13 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public long getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(long lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

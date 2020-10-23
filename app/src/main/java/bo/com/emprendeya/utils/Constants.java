@@ -11,6 +11,7 @@ public class Constants {
     public static final int ERROR_REGISTER = 2002;
     public static final int ERROR_REGISTER_EMAIL_ALREADY_EXISTS = 2003;
     public static final int ERROR_LOGIN_GOOGLE = 2004;
+    public static final int ERROR_REGISTER_DB = 2005;
 
     //Server
     public static final int ERROR_SERVER = 3000;
@@ -26,4 +27,7 @@ public class Constants {
     public static final String BASE_URL = "https://firebasestorage.googleapis.com/v0/b/emprende-ya-2cd09.appspot.com/o/";
     public static final String RESOURCE_STARTUPS = "json%2Fstartups.json";
     public static final String QUERY_PARAM_ALT = "media";
+
+    //Firebase
+    public static final String FIREBASE_PATH_USERS = "/users";
 }
