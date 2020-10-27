@@ -34,6 +34,7 @@ public class StartupDetailsActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     private StartupDetailsViewModel viewModel;
+    private Startup startupSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,9 @@ public class StartupDetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(context, CreatePostActivity.class);
+                intent.putExtra(Constants.KEY_STARTUP_UUID_SELECTED, startupSelected.getUuid());
+                startActivity(intent);
             }
         });
     }
@@ -78,6 +80,7 @@ public class StartupDetailsActivity extends AppCompatActivity {
                 String json = intent.getStringExtra(Constants.KEY_STARTUP_SELECTED);
                 Startup startup = new Gson().fromJson(json, Startup.class);
                 Log.e("Tiempo", "getIntentValues");
+                startupSelected = startup;
                 viewModel.setStartup(startup);
                 Log.e("StartupName", startup.getDisplayName());
             } catch (Exception ex) {

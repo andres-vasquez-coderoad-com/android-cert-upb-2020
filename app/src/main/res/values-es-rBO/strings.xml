@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EmprendeYa</string>
+
+    <!-- Global -->
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancel</string>
+
     <string name="signature">Certificación 2020</string>
     <string name="login">Entra a tu cuenta....</string>
     <string name="google">Google</string>
@@ -28,4 +33,9 @@
 
     <!-- Startup details fragment -->
     <string name="covid_details">Medidas de seguridad por COVID-19</string>
+
+    <!-- Create post Activity -->
+    <string name="post_title">Título de la Publicación</string>
+    <string name="post_content">Contenido</string>
+    <string name="post_image">Seleccione imagen</string>
 </resources>

@@ -1,6 +1,7 @@
 package bo.com.emprendeya.repository;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -104,6 +105,16 @@ public class MockRepository implements RepositoryImpl {
     @Override
     public void signOut() {
 
+    }
+
+    @Override
+    public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
+        return null;
+    }
+
+    @Override
+    public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {
+        return null;
     }
 
 

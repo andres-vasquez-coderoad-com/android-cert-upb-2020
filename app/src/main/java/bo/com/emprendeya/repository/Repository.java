@@ -1,6 +1,7 @@
 package bo.com.emprendeya.repository;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,6 +15,7 @@ import bo.com.emprendeya.model.Startup;
 import bo.com.emprendeya.model.users.User;
 import bo.com.emprendeya.repository.api.ApiRepository;
 import bo.com.emprendeya.repository.firebase.FirebaseRepository;
+import bo.com.emprendeya.repository.firebase.db.FirebaseDbManager;
 import bo.com.emprendeya.repository.local.LocalRepository;
 
 public class Repository implements RepositoryImpl {
@@ -74,5 +76,15 @@ public class Repository implements RepositoryImpl {
     @Override
     public void signOut() {
         FirebaseRepository.getInstance().signOut();
+    }
+
+    @Override
+    public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
+        return FirebaseRepository.getInstance().addPostToStartup(uuidStartup, post, image);
+    }
+
+    @Override
+    public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {
+        return FirebaseRepository.getInstance().observeStartupPost(uuidStartup);
     }
 }

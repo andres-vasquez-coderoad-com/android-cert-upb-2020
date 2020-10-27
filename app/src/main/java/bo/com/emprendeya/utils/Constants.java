@@ -19,6 +19,7 @@ public class Constants {
     public static final String KEY_UUID = "uuid";
     public static final String KEY_DISPLAY_NAME = "displayName";
     public static final String KEY_STARTUP_SELECTED = "startupSelected";
+    public static final String KEY_STARTUP_UUID_SELECTED = "uuidStartup";
 
     //Startup Lists
     public static final int CAROUSEL_COUNT = 5;
@@ -30,4 +31,5 @@ public class Constants {
 
     //Firebase
     public static final String FIREBASE_PATH_USERS = "/users";
+    public static final String FIREBASE_PATH_STARTUP = "/startups";
 }

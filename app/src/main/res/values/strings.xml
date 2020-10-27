@@ -2,6 +2,10 @@
     <string name="app_name">EmprendeYa</string>
     <string name="signature">Certification 2020</string>
 
+    <!-- Global -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Login screen -->
     <string name="login">Enter with your account...</string>
     <string name="google">Google</string>
@@ -29,4 +33,9 @@
 
     <!-- Startup details fragment -->
     <string name="covid_details">COVID-19 Info</string>
+
+    <!-- Create post Activity -->
+    <string name="post_title">Post title</string>
+    <string name="post_content">Post content</string>
+    <string name="post_image">Pick image</string>
 </resources>

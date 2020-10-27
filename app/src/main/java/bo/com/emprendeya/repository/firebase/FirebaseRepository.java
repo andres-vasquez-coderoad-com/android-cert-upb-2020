@@ -1,5 +1,7 @@
 package bo.com.emprendeya.repository.firebase;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -88,5 +90,15 @@ public class FirebaseRepository {
 
     public void signOut() {
         auth.signOut();
+    }
+
+    public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
+        return db.addPostToStartup(uuidStartup, post);
+        //TODO Step 2: add to storage
+        //TODO Step 3: update db
+    }
+
+    public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {
+        return db.observeStartupPost(uuidStartup);
     }
 }
