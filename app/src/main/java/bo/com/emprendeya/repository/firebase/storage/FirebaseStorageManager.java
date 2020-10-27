@@ -22,9 +22,9 @@ public class FirebaseStorageManager {
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
-    public LiveData<Base<String>> updaloadFile(Uri file) {
+    public LiveData<Base<String>> uploadStartupPhoto(String postUuid, Uri file) {
         MutableLiveData<Base<String>> results = new MutableLiveData<>();
-        StorageReference ref = mStorageRef.child("images/rivers.jpg");
+        StorageReference ref = mStorageRef.child("images/" + postUuid + ".jpg");
         UploadTask uploadTask = ref.putFile(file);
 
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -41,7 +41,7 @@ public class FirebaseStorageManager {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    results.postValue(new Base<>(downloadUri.getPath()));
+                    results.postValue(new Base<>(downloadUri.toString()));
                 } else {
                     results.postValue(new Base<>(12, task.getException()));
                 }

@@ -58,6 +58,23 @@ public class FirebaseDbManager {
         return results;
     }
 
+    public LiveData<Base<Boolean>> updateStartupImage(String uuidStartup, String uuidPost, String urlImage) {
+        MutableLiveData<Base<Boolean>> results = new MutableLiveData<>();
+        String path = Constants.FIREBASE_PATH_STARTUP + "/" + uuidStartup + "/" + uuidPost;
+        path += "/coverPhoto";
+        db.getReference(path).setValue(urlImage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    results.postValue(new Base<>(true));
+                } else {
+                    results.postValue(new Base<>(Constants.ERROR_REGISTER_DB, task.getException()));
+                }
+            }
+        });
+        return results;
+    }
+
     public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {
         MutableLiveData<Base<List<Post>>> results = new MutableLiveData<>();
         return results;

@@ -32,4 +32,7 @@ public class Constants {
     //Firebase
     public static final String FIREBASE_PATH_USERS = "/users";
     public static final String FIREBASE_PATH_STARTUP = "/startups";
+
+    //
+    public static final String DIRECTORY_NAME = "emprende-ya";
 }
