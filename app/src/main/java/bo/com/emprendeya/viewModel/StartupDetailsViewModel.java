@@ -34,7 +34,7 @@ public class StartupDetailsViewModel extends AndroidViewModel {
         this.startup.postValue(startup);
     }
 
-    public LiveData<Base<List<Post>>> observePosts(String uuid) {
-        return repository.observeStartupPost(uuid);
+    public LiveData<Base<List<Post>>> observePosts(String startupUuid) {
+        return repository.observeStartupPost(startupUuid);
     }
 }
