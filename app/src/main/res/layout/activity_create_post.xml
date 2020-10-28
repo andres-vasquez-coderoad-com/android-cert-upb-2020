@@ -29,12 +29,6 @@
         android:layout_marginTop="@dimen/space_md"
         android:text="@string/post_image" />
 
-    <EditText
-        android:id="@+id/photoUrlEditTExt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/post_image" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

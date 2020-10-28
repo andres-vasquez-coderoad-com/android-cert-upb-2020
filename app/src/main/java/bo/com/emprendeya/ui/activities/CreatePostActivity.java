@@ -1,11 +1,19 @@
 package bo.com.emprendeya.ui.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,10 +46,14 @@ public class CreatePostActivity extends AppCompatActivity {
     private TextInputLayout postTitleTextInputLayout;
     private TextInputEditText postTitleTextInputEditText;
     private Button pickImageButton;
-    private EditText photoUrlEditTExt;
     private EditText contentEditText;
     private Button cancelButton;
     private Button saveButton;
+
+    private static final int RC_PERMISSIONS = 201;
+    private static final int RC_GALLERY = 202;
+
+    private Uri fileCoverPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +71,6 @@ public class CreatePostActivity extends AppCompatActivity {
         postTitleTextInputLayout = findViewById(R.id.postTitleTextInputLayout);
         postTitleTextInputEditText = findViewById(R.id.postTitleTextInputEditText);
         pickImageButton = findViewById(R.id.pickImageButton);
-        photoUrlEditTExt = findViewById(R.id.photoUrlEditTExt);
         contentEditText = findViewById(R.id.contentEditText);
         cancelButton = findViewById(R.id.cancelButton);
         saveButton = findViewById(R.id.saveButton);
@@ -67,7 +78,15 @@ public class CreatePostActivity extends AppCompatActivity {
 
     private void initEvents() {
         pickImageButton.setOnClickListener(view -> {
-            //TODO
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (hasPermissions()) {
+                    openGallery();
+                } else {
+                    askPermissions();
+                }
+            } else {
+                openGallery();
+            }
         });
 
         cancelButton.setOnClickListener(view -> {
@@ -78,15 +97,11 @@ public class CreatePostActivity extends AppCompatActivity {
             Post post = new Post();
             post.setTitle(postTitleTextInputEditText.getText().toString());
             post.setContent(contentEditText.getText().toString());
-
-            //TODO temp
-            post.setCoverPhoto(photoUrlEditTExt.getText().toString());
             post.setTimestamp(Calendar.getInstance().getTimeInMillis());
 
-            if (!post.getTitle().isEmpty() && !post.getContent().isEmpty() &&
-                    !post.getCoverPhoto().isEmpty()) {
+            if (!post.getTitle().isEmpty() && !post.getContent().isEmpty()) {
 
-                viewModel.createPost(uuidStartup, post, null).observe(this, new Observer<Base<String>>() {
+                viewModel.createPost(uuidStartup, post, fileCoverPhoto).observe(this, new Observer<Base<String>>() {
                     @Override
                     public void onChanged(Base<String> stringBase) {
                         if (stringBase.isSuccess()) {
@@ -107,6 +122,54 @@ public class CreatePostActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.KEY_STARTUP_UUID_SELECTED)) {
             uuidStartup = intent.getStringExtra(Constants.KEY_STARTUP_UUID_SELECTED);
+        }
+    }
+
+    private boolean hasPermissions() {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void askPermissions() {
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_PERMISSIONS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case RC_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openGallery();
+                } else {
+                    Toast.makeText(context, "Sin permisos", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.post_image)),
+                RC_GALLERY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RC_GALLERY && data != null && data.getData() != null) {
+                Uri image = data.getData();
+
+                //TODO --> Bitmap
+                //TODO --> SDCard/imagen.jpg --> reducir su tamaño
+                fileCoverPhoto = image;
+            }
         }
     }
 }

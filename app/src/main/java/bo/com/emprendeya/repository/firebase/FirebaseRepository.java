@@ -1,6 +1,7 @@
 package bo.com.emprendeya.repository.firebase;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -103,6 +104,7 @@ public class FirebaseRepository {
                     if (urlBase.isSuccess()) {
                         //Step 3: Update record
                         String url = urlBase.getData();
+                        Log.e("CoverPhotoUrl", url);
                         db.updateCoverPhoto(uuidStartup, uuidPost, url).observeForever(resultUpdateBase -> {
                             if (resultUpdateBase.isSuccess()) {
                                 results.postValue(new Base<>(uuidPost));
