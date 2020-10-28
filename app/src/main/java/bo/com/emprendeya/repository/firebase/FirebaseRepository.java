@@ -93,9 +93,33 @@ public class FirebaseRepository {
     }
 
     public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
-        return db.addPostToStartup(uuidStartup, post);
-        //TODO Step 2: add to storage
-        //TODO Step 3: update db
+        MutableLiveData<Base<String>> results = new MutableLiveData<>();
+        //Step 1: Create record
+        db.addPostToStartup(uuidStartup, post).observeForever(uuidPostBase -> {
+            if (uuidPostBase.isSuccess()) {
+                //Step 2: Upload image
+                String uuidPost = uuidPostBase.getData();
+                storage.uploadPostImage(uuidPost, image).observeForever(urlBase -> {
+                    if (urlBase.isSuccess()) {
+                        //Step 3: Update record
+                        String url = urlBase.getData();
+                        db.updateCoverPhoto(uuidStartup, uuidPost, url).observeForever(resultUpdateBase -> {
+                            if (resultUpdateBase.isSuccess()) {
+                                results.postValue(new Base<>(uuidPost));
+                            } else {
+                                results.postValue(new Base<>(resultUpdateBase.getErrorCode(), resultUpdateBase.getException()));
+                            }
+                        });
+                    } else {
+                        results.postValue(new Base<>(urlBase.getErrorCode(), urlBase.getException()));
+                    }
+                });
+            } else {
+                results.postValue(new Base<>(uuidPostBase.getErrorCode(), uuidPostBase.getException()));
+            }
+        });
+
+        return results;
     }
 
     public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {

@@ -90,7 +90,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(Base<String> stringBase) {
                         if (stringBase.isSuccess()) {
-                            Log.e(LOG, "createPost.isSuccess");
+                            Log.e(LOG, "createPost.isSuccess:" + stringBase.getData());
                         } else {
                             Log.e(LOG, "createPost.error", stringBase.getException());
                         }
