@@ -31,6 +31,7 @@ import java.util.Calendar;
 import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
+import bo.com.emprendeya.utils.CompressImage;
 import bo.com.emprendeya.utils.Constants;
 import bo.com.emprendeya.utils.ErrorMapper;
 import bo.com.emprendeya.viewModel.CreatePostViewModel;
@@ -165,10 +166,7 @@ public class CreatePostActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == RC_GALLERY && data != null && data.getData() != null) {
                 Uri image = data.getData();
-
-                //TODO --> Bitmap
-                //TODO --> SDCard/imagen.jpg --> reducir su tamaño
-                fileCoverPhoto = image;
+                fileCoverPhoto = CompressImage.compressImage(image, context);
             }
         }
     }

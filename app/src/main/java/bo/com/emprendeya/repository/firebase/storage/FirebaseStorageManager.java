@@ -14,6 +14,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import bo.com.emprendeya.model.Base;
+import bo.com.emprendeya.utils.CompressImage;
 import bo.com.emprendeya.utils.Constants;
 
 public class FirebaseStorageManager {
