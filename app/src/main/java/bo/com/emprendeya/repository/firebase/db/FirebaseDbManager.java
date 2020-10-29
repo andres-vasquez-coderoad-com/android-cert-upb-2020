@@ -6,10 +6,16 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import bo.com.emprendeya.model.Base;
 import bo.com.emprendeya.model.Post;
@@ -77,6 +83,27 @@ public class FirebaseDbManager {
 
     public LiveData<Base<List<Post>>> observeStartupPost(String uuidStartup) {
         MutableLiveData<Base<List<Post>>> results = new MutableLiveData<>();
+        String path = Constants.FIREBASE_PATH_STARTUP + "/" + uuidStartup;
+        db.getReference(path).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                GenericTypeIndicator<Map<String, Post>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Post>>() {
+                };
+                Map<String, Post> map = snapshot.getValue(genericTypeIndicator);
+                List<Post> posts = new ArrayList<>();
+                for (Map.Entry<String, Post> entry : map.entrySet()) {
+                    Post post = entry.getValue();
+                    post.setUuid(entry.getKey());
+                    posts.add(post);
+                }
+                results.postValue(new Base<>(posts));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return results;
     }
 }

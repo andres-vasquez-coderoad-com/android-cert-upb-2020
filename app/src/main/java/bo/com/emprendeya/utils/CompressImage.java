@@ -45,7 +45,6 @@ public class CompressImage {
 
             out.flush();
             out.close();
-
             return Uri.fromFile(file);
         } catch (IOException e) {
             Log.e(LOG, "Error compressing image", e);
