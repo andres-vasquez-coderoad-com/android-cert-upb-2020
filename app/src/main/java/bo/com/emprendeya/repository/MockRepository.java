@@ -108,6 +108,11 @@ public class MockRepository implements RepositoryImpl {
     }
 
     @Override
+    public LiveData<Base<User>> registerUser(User user, Uri image) {
+        return null;
+    }
+
+    @Override
     public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
         return null;
     }

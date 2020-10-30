@@ -38,4 +38,11 @@
     <string name="post_title">Post title</string>
     <string name="post_content">Post content</string>
     <string name="post_image">Pick image</string>
+
+    <!-- Register Activity -->
+    <string name="register_name">Enter name</string>
+    <string name="register_email">Enter email</string>
+    <string name="register_password">Enter password</string>
+    <string name="register_password_repeat">Repeat password</string>
+    <string name="register_profile_pic">Select profile Pic</string>
 </resources>

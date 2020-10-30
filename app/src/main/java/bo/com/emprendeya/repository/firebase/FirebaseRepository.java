@@ -40,18 +40,18 @@ public class FirebaseRepository {
     }
 
     public LiveData<Base<User>> loginWithEmailPassword(String email, String password) {
-        return registerAndUpdateDb(auth.loginWithEmailPassword(email, password), null);
+        return registerAndUpdateDb(auth.loginWithEmailPassword(email, password), null, null);
     }
 
     public LiveData<Base<User>> loginWithGoogle(String idToken) {
-        return registerAndUpdateDb(auth.loginWithGoogle(idToken), null);
+        return registerAndUpdateDb(auth.loginWithGoogle(idToken), null, null);
     }
 
-    public LiveData<Base<User>> register(User user) {
-        return registerAndUpdateDb(auth.registerUser(user), user);
+    public LiveData<Base<User>> register(User user, Uri image) {
+        return registerAndUpdateDb(auth.registerUser(user), user, image);
     }
 
-    private LiveData<Base<User>> registerAndUpdateDb(LiveData<Base<User>> registerFunction, User user) {
+    private LiveData<Base<User>> registerAndUpdateDb(LiveData<Base<User>> registerFunction, User user, Uri image) {
         MutableLiveData<Base<User>> results = new MutableLiveData<>();
         registerFunction.observeForever(new Observer<Base<User>>() {
             @Override
@@ -63,13 +63,33 @@ public class FirebaseRepository {
                         registeredUser.setPhoto(user.getPhoto() != null ? user.getPhoto() : "");
                     }
 
-                    //Register in database
-                    db.updateUser(registeredUser).observeForever(new Observer<Base<User>>() {
-                        @Override
-                        public void onChanged(Base<User> userBase) {
-                            results.postValue(userBase);
-                        }
-                    });
+                    if (image != null) {
+                        storage.uploadUserImage(registeredUser.getUuid(), image).observeForever(new Observer<Base<String>>() {
+                            @Override
+                            public void onChanged(Base<String> urlBase) {
+                                if (urlBase.isSuccess()) {
+                                    registeredUser.setPhoto(urlBase.getData());
+                                    //Register in database
+                                    db.updateUser(registeredUser).observeForever(new Observer<Base<User>>() {
+                                        @Override
+                                        public void onChanged(Base<User> userBase) {
+                                            results.postValue(userBase);
+                                        }
+                                    });
+                                } else {
+                                    results.postValue(new Base<>(urlBase.getErrorCode(), urlBase.getException()));
+                                }
+                            }
+                        });
+                    } else {
+                        //Register in database
+                        db.updateUser(registeredUser).observeForever(new Observer<Base<User>>() {
+                            @Override
+                            public void onChanged(Base<User> userBase) {
+                                results.postValue(userBase);
+                            }
+                        });
+                    }
                 } else {
                     //Return results
                     results.postValue(userBase);

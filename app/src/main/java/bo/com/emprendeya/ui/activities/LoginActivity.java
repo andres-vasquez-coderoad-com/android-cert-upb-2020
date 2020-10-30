@@ -226,4 +226,9 @@ public class LoginActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void openRegister(View view) {
+        Intent intent = new Intent(context, RegisterActivity.class);
+        startActivity(intent);
+    }
 }

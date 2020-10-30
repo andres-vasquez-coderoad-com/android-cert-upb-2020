@@ -25,8 +25,17 @@ public class FirebaseStorageManager {
     }
 
     public LiveData<Base<String>> uploadPostImage(String uuidPost, Uri image) {
-        MutableLiveData<Base<String>> results = new MutableLiveData<>();
         String path = "images/" + uuidPost + ".jpg";
+        return this.uploadImage(path, image);
+    }
+
+    public LiveData<Base<String>> uploadUserImage(String uuidUser, Uri image) {
+        String path = "users/" + uuidUser + ".jpg";
+        return this.uploadImage(path, image);
+    }
+
+    private LiveData<Base<String>> uploadImage(String path, Uri image) {
+        MutableLiveData<Base<String>> results = new MutableLiveData<>();
         StorageReference ref = storage.child(path);
         UploadTask uploadTask = ref.putFile(image);
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

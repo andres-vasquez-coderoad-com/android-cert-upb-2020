@@ -79,6 +79,11 @@ public class Repository implements RepositoryImpl {
     }
 
     @Override
+    public LiveData<Base<User>> registerUser(User user, Uri image) {
+        return FirebaseRepository.getInstance().register(user, image);
+    }
+
+    @Override
     public LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image) {
         return FirebaseRepository.getInstance().addPostToStartup(uuidStartup, post, image);
     }

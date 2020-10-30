@@ -25,6 +25,8 @@ public interface RepositoryImpl {
 
     void signOut();
 
+    LiveData<Base<User>> registerUser(User user, Uri image);
+
     /* ************************* Posts **************************/
 
     LiveData<Base<String>> addPostToStartup(String uuidStartup, Post post, Uri image);
