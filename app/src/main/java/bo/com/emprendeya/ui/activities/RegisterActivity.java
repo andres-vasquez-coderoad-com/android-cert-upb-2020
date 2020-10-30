@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,43 +22,37 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import bo.com.emprendeya.R;
 import bo.com.emprendeya.model.Base;
-import bo.com.emprendeya.model.Post;
+import bo.com.emprendeya.model.users.User;
 import bo.com.emprendeya.utils.Constants;
-import bo.com.emprendeya.utils.ErrorMapper;
-import bo.com.emprendeya.viewModel.CreatePostViewModel;
 import bo.com.emprendeya.viewModel.LoginViewModel;
+import bo.com.emprendeya.viewModel.RegisterViewModel;
 
-public class CreatePostActivity extends AppCompatActivity {
-    private static final String LOG = CreatePostActivity.class.getSimpleName();
+public class RegisterActivity extends AppCompatActivity {
+    private static final String LOG = RegisterActivity.class.getName();
 
-    private CreatePostViewModel viewModel;
     private Context context;
-    private String uuidStartup;
+    private RegisterViewModel registerViewModel;
 
-    private TextInputLayout postTitleTextInputLayout;
-    private TextInputEditText postTitleTextInputEditText;
-    private Button pickImageButton;
-    private EditText photoUrlEditTExt;
-    private EditText contentEditText;
-    private Button cancelButton;
-    private Button saveButton;
+    private TextInputEditText nameTextInputEditText;
+    private TextInputEditText emailTextInputEditText;
+    private TextInputEditText passwordTextInputEditText;
+    private TextInputEditText passwordRepeatTextInputEditText;
+    private Button selectPhotoButton;
 
+    private ProgressDialog loading;
+
+    private Uri image;
     private File fileImagen;
     public static final int REQUEST_CODE_ATTACH = 103;
     public static final int REQUEST_PERMISSIONS = 201;
@@ -65,72 +60,70 @@ public class CreatePostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_post);
-        context = this;
-        viewModel = new ViewModelProvider(this).get(CreatePostViewModel.class);
+        setContentView(R.layout.activity_register);
+        this.context = this;
+        registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         initViews();
         initEvents();
-        getIntentValues();
     }
 
     private void initViews() {
-        postTitleTextInputLayout = findViewById(R.id.postTitleTextInputLayout);
-        postTitleTextInputEditText = findViewById(R.id.postTitleTextInputEditText);
-        pickImageButton = findViewById(R.id.pickImageButton);
-        photoUrlEditTExt = findViewById(R.id.photoUrlEditTExt);
-        contentEditText = findViewById(R.id.contentEditText);
-        cancelButton = findViewById(R.id.cancelButton);
-        saveButton = findViewById(R.id.saveButton);
+        nameTextInputEditText = findViewById(R.id.nameTextInputEditText);
+        emailTextInputEditText = findViewById(R.id.emailTextInputEditText);
+        passwordTextInputEditText = findViewById(R.id.passwordTextInputEditText);
+        passwordRepeatTextInputEditText = findViewById(R.id.passwordRepeatTextInputEditText);
+        selectPhotoButton = findViewById(R.id.selectPhotoButton);
     }
 
     private void initEvents() {
-        pickImageButton.setOnClickListener(view -> {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                if (hasPermissions()) {
-                    getPictureFromGallery();
-                } else {
-                    askPermissions();
-                }
-            } else {
-                getPictureFromGallery();
-            }
-        });
-
-        cancelButton.setOnClickListener(view -> {
-            finish();
-        });
-
-        saveButton.setOnClickListener(view -> {
-            Post post = new Post();
-            post.setTitle(postTitleTextInputEditText.getText().toString());
-            post.setContent(contentEditText.getText().toString());
-            post.setTimestamp(Calendar.getInstance().getTimeInMillis());
-
-            Uri fileUri = Uri.fromFile(fileImagen);
-            if (!post.getTitle().isEmpty() && !post.getContent().isEmpty()) {
-                viewModel.createPost(uuidStartup, post, fileUri).observe(this, new Observer<Base<String>>() {
-                    @Override
-                    public void onChanged(Base<String> stringBase) {
-                        if (stringBase.isSuccess()) {
-                            Log.e(LOG, "createPost.isSuccess");
-                        } else {
-                            Log.e(LOG, "createPost.error", stringBase.getException());
-                        }
+        selectPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    if (hasPermissions()) {
+                        getPictureFromGallery();
+                    } else {
+                        askPermissions();
                     }
-                });
-            } else {
-                Toast.makeText(context, context.getString(R.string.error_fill_values),
-                        Toast.LENGTH_SHORT).show();
+                } else {
+                    getPictureFromGallery();
+                }
             }
         });
     }
 
-    private void getIntentValues() {
-        Intent intent = getIntent();
-        if (intent.hasExtra(Constants.KEY_STARTUP_UUID_SELECTED)) {
-            uuidStartup = intent.getStringExtra(Constants.KEY_STARTUP_UUID_SELECTED);
+    private void showLoading() {
+        loading = new ProgressDialog(context);
+        loading.setTitle("Cargando");
+        loading.setCancelable(false);
+        loading.show();
+    }
+
+    private void dismissLoading() {
+        if (loading != null && loading.isShowing()) {
+            loading.dismiss();
         }
+    }
+
+    public void registerUser(View view) {
+        //TODO add validaciones
+        User user = new User(emailTextInputEditText.getText().toString(),
+                passwordTextInputEditText.getText().toString());
+        user.setDisplayName(nameTextInputEditText.getText().toString());
+
+        showLoading();
+        registerViewModel.registerUser(user, image).observeForever(new Observer<Base<User>>() {
+            @Override
+            public void onChanged(Base<User> userBase) {
+                dismissLoading();
+                if (userBase.isSuccess()) {
+                    RegisterActivity.this.finish();
+                } else {
+                    Toast.makeText(context, "Error registrando usuario", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private boolean hasPermissions() {
@@ -202,6 +195,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     out.close();
 
                     fileImagen = file;
+                    image = Uri.fromFile(file);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(LOG, "IOException: " + e.getMessage());

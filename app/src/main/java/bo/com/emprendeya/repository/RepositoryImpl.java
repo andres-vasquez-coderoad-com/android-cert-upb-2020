@@ -23,6 +23,8 @@ public interface RepositoryImpl {
 
     LiveData<Base<User>> getCurrentUser();
 
+    LiveData<Base<User>> registerUser(User user, Uri photo);
+
     void signOut();
 
     /* ************************* Posts **************************/

@@ -103,6 +103,11 @@ public class MockRepository implements RepositoryImpl {
     }
 
     @Override
+    public LiveData<Base<User>> registerUser(User user, Uri photo) {
+        return null;
+    }
+
+    @Override
     public void signOut() {
 
     }
